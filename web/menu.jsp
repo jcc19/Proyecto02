@@ -20,10 +20,10 @@
                     <td><a href="DatosPersona.jsp">Datos de Persona</a></td>
                 </tr>
                 <tr>
-                    <td><a href="">Datos de Area</a></td>
+                    <td><a href="DatosArea.jsp">Datos de Area</a></td>
                 </tr>
                 <tr>
-                    <td><a href="">Datos de Rol</a></td>
+                    <td><a href="DatosRol.jsp">Datos de Rol</a></td>
                     
                 </tr>
                 <tr>

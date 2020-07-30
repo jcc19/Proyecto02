@@ -6,13 +6,17 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Datos Estudiante</title>
+        <title>Datos Persona</title>
         <link href="css/Estilosparatabla.css" rel="stylesheet" type="text/css"/>
         <%!
             String consulta;
+            String consulta2;
             Connection cn;
+            Connection cn2;
             PreparedStatement pst;
+            PreparedStatement pst2;
             ResultSet rs;
+            ResultSet rs2;
             String s_accion;
             String s_idpersona;
             String s_nombre;
@@ -21,6 +25,7 @@
             String s_telefono;
             String s_dni;
             String s_estado;
+            boolean valor;
             
         %>
     </head>
@@ -44,7 +49,7 @@
                     if (rs.next()) {
         %>
         <br>
-        <form name="EditarEstudianteForm" action="DatosPersona.jsp" method="GET">
+        <form name="EditarPersonaForm" action="DatosPersona.jsp" method="GET">
             <table border="0" align="center">
                 <thead>
                     <tr>
@@ -93,7 +98,7 @@
                 }
             }else{
         %>
-        <form name="AgregarEstudianteForm" action="DatosPersona.jsp" method="GET">
+        <form name="AgregarPersonaForm" action="DatosPersona.jsp" method="GET">
             <table border="0" align="center">
                 <thead>
                     <tr>
@@ -206,16 +211,16 @@
                     }
                 }
                 consulta= " Select IdPersona, Nombre, Apellido, Dirección, Telefono, DNI, Estado "
-                        + " from persona ";
+                        + " from persona ; ";
                 //out.print(consulta);
                 pst = cn.prepareStatement(consulta);
                 rs = pst.executeQuery();
                 int num = 0;
                 String ide;
+                String ide2;
                 while (rs.next()) {  
                     ide = rs.getString(1);
                     num++;
-
                     %>
                     <tbody>
                        <tr>
@@ -226,18 +231,41 @@
                         <td><%out.print(rs.getString(5));%></td>
                         <td><%out.print(rs.getString(6));%></td>
                         <td><%out.print(rs.getString(7));%></td>
-                        <td><button href="DatosPersona.jsp?f_accion=E&f_idpersona=<%out.print(ide);%>" type="submit" value=""><img  src="imagenes/eliminar.png" width="20"></button></td>
-                        <td><button href="DatosPersona.jsp?f_accion=M1&f_idpersona=<%out.print(ide);%>" type="submit" value=""><img  src="imagenes/editar.png" width="30"></button></td>
-
-                    </tr>                    
+                        <% consulta2 = "select IdPersona from sugerencia; ";
+                        pst2 = cn.prepareStatement(consulta2);
+                        rs2 = pst2.executeQuery();
+                     while(rs2.next()){
+                         ide2 = rs2.getString(1);
+                         //out.print(Integer.parseInt(ide2) ==Integer.parseInt(ide));
+                         if(Integer.parseInt(ide2) ==Integer.parseInt(ide)){
+                             valor= true;
+                             break;
+                             
+                         }else{
+                             valor = false;
+                             //out.print(valor);
+                         }
+                     }  
+                      //out.print(" final:"+valor);
+                    if(valor){%>
+                   
+                         <td><a  ><img  src="imagenes/eliminar.png" width="20"></a></td>
+                        <% }else{                    
+                        %>
+                        
+                        <td><a href="DatosPersona.jsp?f_accion=E&f_idpersona=<%out.print(ide);%>"><img  src="imagenes/eliminar2.png" width="25"></a></td>                 
                     <%
-                    }
+                    }%>
+                    <td><a href="DatosPersona.jsp?f_accion=M1&f_idpersona=<%out.print(ide);%>" ><img  src="imagenes/editar.png" width="30"></a></td>
+                    </tr>
+                        <%}
             }catch(Exception e){
-                out.print("Error SQL");
+                out.print("Error SQL ");
             }
         
         %> 
-                    </tbody>
+                    
+        </tbody>
                     
         </table>
         <br>
